@@ -4,33 +4,64 @@ import { Link } from "react-router-dom";
 import "./Login.css";
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: "",
+      password: ""
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    console.log(this.state);
+  }
+
   render() {
     return (
       <div className="Game">
-        <form className="Login-form">
+        <form className="Login-form" onSubmit={this.handleSubmit}>
           <h1>Log In</h1>
           <div className="form-group">
-            <label htmlFor="email" />
-            <input
-              type="text"
-              name="email"
-              id="email"
-              placeholder="email address"
-            />
-            <label htmlFor="password" />
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="password"
-            />
+            <div className="Login-form-input">
+              <label htmlFor="email">Email</label>
+              <input
+                type="text"
+                name="email"
+                id="email"
+                placeholder="enter email address"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="Login-form-input">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="enter password"
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
           <button type="submit" className="btn btn-primary btn-lg">
             Log In
           </button>
           <div className="Login-register">
-            <Link to="/">
-              <span>Not Registered?</span>
+            <span>Not Registered? </span>
+            <Link to="/register">
+              <em>Sign up here</em>{" "}
             </Link>
           </div>
           <Link to="/">
