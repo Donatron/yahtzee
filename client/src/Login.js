@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import "./Login.css";
 
@@ -25,7 +26,7 @@ class Login extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    console.log(this.state);
+    axios.post(`http://localhost:9000/login`);
   }
 
   render() {

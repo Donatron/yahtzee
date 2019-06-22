@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import "./Register.css";
 
@@ -27,7 +28,9 @@ class Register extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    console.log(this.state);
+    axios.post(`http://localhost:9000/register`).then(res => {
+      console.log(res.data);
+    });
   }
 
   render() {
