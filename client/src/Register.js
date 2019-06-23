@@ -9,6 +9,7 @@ class Register extends Component {
     super(props);
 
     this.state = {
+      name: "",
       email: "",
       password: "",
       passwordConfirm: "",
@@ -28,7 +29,22 @@ class Register extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    axios.post(`http://localhost:9000/register`).then(res => {
+    const { name, email, password, passwordConfirm, username } = this.state;
+
+    // Check to see if passwords match
+    if (password !== passwordConfirm) {
+      console.log("Passwords don't match");
+    }
+
+    // Create new user object to pass to backend api
+    const newUser = {
+      name,
+      email,
+      password,
+      username
+    };
+
+    axios.post(`http://localhost:9000/register`, newUser).then(res => {
       console.log(res.data);
     });
   }
@@ -39,6 +55,16 @@ class Register extends Component {
         <form className="Register-form" onSubmit={this.handleSubmit}>
           <h1>Register</h1>
           <div className="form-group">
+            <div className="Register-form-input">
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="enter name"
+                onChange={this.handleChange}
+              />
+            </div>
             <div className="Register-form-input">
               <label htmlFor="email">Email</label>
               <input
@@ -72,7 +98,7 @@ class Register extends Component {
             <div className="Register-form-input">
               <label htmlFor="username">Username</label>
               <input
-                type="password"
+                type="text"
                 name="username"
                 id="username"
                 placeholder="enter username"
