@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import axios from "axios";
+import { loginUser } from "./actions";
 
 import "./Login.css";
 
@@ -26,7 +28,16 @@ class Login extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    axios.post(`http://localhost:9000/login`);
+    const { email, password } = this.state;
+
+    const user = {
+      email,
+      password
+    };
+
+    // axios.post(`http://localhost:9000/login`, user);
+
+    this.props.loginUser(user, this.props.history);
   }
 
   render() {
@@ -76,4 +87,14 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    errors: state.errors
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(withRouter(Login));

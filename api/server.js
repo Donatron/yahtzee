@@ -3,6 +3,9 @@ const { check, validationResult } = require("express-validator");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const passport = require("passport");
+const keys = require("./config/keys");
 
 // Import mongoose User model
 const User = require("./models/User");
@@ -68,24 +71,72 @@ app.post(
       user.password = await bcrypt.hash(password, salt);
 
       // Save user instance to db
-      await user.save();
-
-      // Encrypt password
-
-      res.send("Register user route");
+      await user
+        .save()
+        .then(user => res.json(user))
+        .catch(err => console.error(err));
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");
     }
-
-    // Return jsonwebtoken
   }
 );
 
-app.post("/login", (req, res) => {
-  res.json({
-    success: "Logged in"
-  });
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  // Check for user
+  await User.findOne({ email })
+    .then(user => {
+      console.log("User");
+      if (!user) {
+        res.json({
+          error: "Invalid email"
+        });
+      }
+
+      bcrypt.compare(password, user.password).then(isMatch => {
+        if (isMatch) {
+          // Prepare payload for jsonwebtoken
+          console.log("We have a match");
+          const payload = {
+            id: user.id,
+            name: user.name
+          };
+          // sign token
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            { expiresIn: 3600 },
+            (err, token) => {
+              if (err) {
+                res.json({
+                  error: err
+                });
+              }
+              res.json({
+                success: true,
+                token: "Bearer " + token
+              });
+            }
+          );
+        } else {
+          console.log("No match");
+          res.status(400).json({
+            error: "Password incorrect"
+          });
+        }
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        errors: "Server error"
+      });
+    });
+
+  // res.json({
+  //   success: "Logged in"
+  // });
 });
 
 app.listen(PORT, () => {

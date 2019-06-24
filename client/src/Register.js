@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { registerUser } from "./actions";
 
 import "./Register.css";
 
@@ -44,9 +46,7 @@ class Register extends Component {
       username
     };
 
-    axios.post(`http://localhost:9000/register`, newUser).then(res => {
-      console.log(res.data);
-    });
+    this.props.registerUser(newUser, this.props.history);
   }
 
   render() {
@@ -126,4 +126,13 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = state => {
+  return {
+    errors: state.errors
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(withRouter(Register));
