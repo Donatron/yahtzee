@@ -15,7 +15,8 @@ class Register extends Component {
       email: "",
       password: "",
       passwordConfirm: "",
-      username: ""
+      username: "",
+      errors: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -33,23 +34,22 @@ class Register extends Component {
 
     const { name, email, password, passwordConfirm, username } = this.state;
 
-    // Check to see if passwords match
-    if (password !== passwordConfirm) {
-      console.log("Passwords don't match");
-    }
-
     // Create new user object to pass to backend api
     const newUser = {
       name,
       email,
       password,
+      passwordConfirm,
       username
     };
+
+    console.log(newUser);
 
     this.props.registerUser(newUser, this.props.history);
   }
 
   render() {
+    const { errors } = this.props;
     return (
       <div className="Game">
         <form className="Register-form" onSubmit={this.handleSubmit}>
@@ -63,7 +63,9 @@ class Register extends Component {
                 id="name"
                 placeholder="enter name"
                 onChange={this.handleChange}
+                className={errors.name ? "is-invalid" : ""}
               />
+              {errors.name ? <small>{errors.name}</small> : ""}
             </div>
             <div className="Register-form-input">
               <label htmlFor="email">Email</label>
@@ -73,7 +75,9 @@ class Register extends Component {
                 id="email"
                 placeholder="enter email address"
                 onChange={this.handleChange}
+                className={errors.email ? "is-invalid" : ""}
               />
+              {errors.email ? <small>{errors.email}</small> : ""}
             </div>
             <div className="Register-form-input">
               <label htmlFor="password">Password</label>
@@ -83,7 +87,9 @@ class Register extends Component {
                 id="password"
                 placeholder="enter password"
                 onChange={this.handleChange}
+                className={errors.password ? "is-invalid" : ""}
               />
+              {errors.password ? <small>{errors.password}</small> : ""}
             </div>
             <div className="Register-form-input">
               <label htmlFor="passwordConfirm">Confirm Password</label>
@@ -93,7 +99,13 @@ class Register extends Component {
                 id="passwordConfirm"
                 placeholder="confirm password"
                 onChange={this.handleChange}
+                className={errors.passwordConfirm ? "is-invalid" : ""}
               />
+              {errors.passwordConfirm ? (
+                <small>{errors.passwordConfirm}</small>
+              ) : (
+                ""
+              )}
             </div>
             <div className="Register-form-input">
               <label htmlFor="username">Username</label>
@@ -103,7 +115,9 @@ class Register extends Component {
                 id="username"
                 placeholder="enter username"
                 onChange={this.handleChange}
+                className={errors.username ? "is-invalid" : ""}
               />
+              {errors.username ? <small>{errors.username}</small> : ""}
             </div>
           </div>
           <button type="submit" className="btn btn-primary btn-lg">

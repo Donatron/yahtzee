@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import axios from "axios";
 import { loginUser } from "./actions";
 
 import "./Login.css";
@@ -41,6 +40,8 @@ class Login extends Component {
   }
 
   render() {
+    const { errors } = this.props;
+
     return (
       <div className="Game">
         <form className="Login-form" onSubmit={this.handleSubmit}>
@@ -54,7 +55,15 @@ class Login extends Component {
                 id="email"
                 placeholder="enter email address"
                 onChange={this.handleChange}
+                className={errors.email ? "is-invalid" : ""}
               />
+              {errors.email ? (
+                <small>
+                  <em>{errors.email}</em>
+                </small>
+              ) : (
+                ""
+              )}
             </div>
             <div className="Login-form-input">
               <label htmlFor="password">Password</label>
@@ -64,7 +73,15 @@ class Login extends Component {
                 id="password"
                 placeholder="enter password"
                 onChange={this.handleChange}
+                className={errors.password ? "is-invalid" : ""}
               />
+              {errors.password ? (
+                <small>
+                  <em>{errors.password}</em>
+                </small>
+              ) : (
+                ""
+              )}
             </div>
           </div>
           <button type="submit" className="btn btn-primary btn-lg">

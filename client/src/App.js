@@ -7,6 +7,7 @@ import "./App.css";
 import Game from "./Game";
 import Login from "./Login";
 import Register from "./Register";
+import Profile from "./Profile";
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
+            <Route path="/profile" exact component={Profile} />
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
             <Route path="/" exact component={Game} />

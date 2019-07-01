@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Dice from "./Dice";
 import ScoreTable from "./ScoreTable";
@@ -47,7 +48,16 @@ class Game extends Component {
   }
 
   componentDidMount() {
-    this.animateRoll();
+    const { auth } = this.props;
+
+    if (auth.id) {
+      this.setState({
+        playing: true,
+        playerType: "member"
+      });
+
+      this.animateRoll();
+    }
   }
 
   playAsGuest() {
@@ -55,6 +65,7 @@ class Game extends Component {
       playing: true,
       playerType: "guest"
     });
+    this.animateRoll();
   }
 
   animateRoll() {
@@ -130,7 +141,9 @@ class Game extends Component {
           scores and compete against your friends.
         </p>
         <div className="Game-welcome-button-wrapper">
-          <Link onClick={this.playAsGuest}>Play as a guest</Link>
+          <Link onClick={this.playAsGuest} to="/">
+            Play as a guest
+          </Link>
           <Link to="/register">Register</Link>
           <Link to="/login">Log In</Link>
         </div>
@@ -173,4 +186,10 @@ class Game extends Component {
   }
 }
 
-export default Game;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+  };
+};
+
+export default connect(mapStateToProps)(Game);
