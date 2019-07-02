@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import RuleRow from "./RuleRow";
+import RuleRow from "../Rules/RuleRow";
 import "./ScoreTable.css";
 import {
   ones,
@@ -15,7 +15,7 @@ import {
   largeStraight,
   yahtzee,
   chance
-} from "./Rules";
+} from "../Rules/Rules";
 
 class ScoreTable extends Component {
   getTotalScore() {

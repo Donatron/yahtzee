@@ -10,9 +10,11 @@ const keys = require("./config/keys");
 // Load validation files
 const validateLoginData = require("./validation/login");
 const validateRegistrationData = require("./validation/register");
+const validateProfileData = require("./validation/profile");
 
-// Import mongoose User model
+// Import mongoose models
 const User = require("./models/User");
+const Profile = require("./models/Profile");
 
 const PORT = process.env.PORT || 9000;
 
@@ -93,7 +95,7 @@ app.post("/login", async (req, res) => {
     .then(user => {
       if (!user) {
         return res.status(400).json({
-          email: "Invalid email"
+          email: "User not found"
         });
       }
 
@@ -138,6 +140,15 @@ app.post("/login", async (req, res) => {
   // res.json({
   //   success: "Logged in"
   // });
+});
+
+app.post("/profile", async (req, res) => {
+  // Validate form data
+  let { errors, isValid } = validateProfileData(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
 });
 
 app.listen(PORT, () => {

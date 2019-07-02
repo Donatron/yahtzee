@@ -2,19 +2,21 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import Dice from "./Dice";
-import ScoreTable from "./ScoreTable";
+import Dice from "../Dice/Dice";
+import ScoreTable from "../ScoreTable/ScoreTable";
 import "./Game.css";
 
 const NUM_DICE = 5;
 const NUM_ROLLS = 3;
 const SCORES_FILLED = 0;
 
+// !: Fix bug where Yahtzee is able to be saved on first page load
+
 class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      playing: false,
+      playing: true,
       playerType: null,
       dice: Array.from({ length: NUM_DICE }),
       locked: Array(NUM_DICE).fill(false),
@@ -43,8 +45,6 @@ class Game extends Component {
     this.doScore = this.doScore.bind(this);
     this.toggleLocked = this.toggleLocked.bind(this);
     this.animateRoll = this.animateRoll.bind(this);
-    this.renderGameBoard = this.renderGameBoard.bind(this);
-    this.renderGameWelcome = this.renderGameWelcome.bind(this);
   }
 
   componentDidMount() {
@@ -84,8 +84,6 @@ class Game extends Component {
       rollsLeft: st.rollsLeft - 1,
       rolling: false
     }));
-
-    console.log(this.state.scoresFilled);
   }
 
   toggleLocked(idx) {
@@ -126,31 +124,6 @@ class Game extends Component {
     return messages[this.state.rollsLeft];
   }
 
-  renderGameBoard() {
-    return <h1>Game board will go here</h1>;
-  }
-
-  renderGameWelcome() {
-    return (
-      <div className="Game-welcome">
-        <h2 className="Game-welcome-title">
-          Your one-stop, online Yahtzee app
-        </h2>
-        <p>
-          Either play as a guest, or create account and log in to save your
-          scores and compete against your friends.
-        </p>
-        <div className="Game-welcome-button-wrapper">
-          <Link onClick={this.playAsGuest} to="/">
-            Play as a guest
-          </Link>
-          <Link to="/register">Register</Link>
-          <Link to="/login">Log In</Link>
-        </div>
-      </div>
-    );
-  }
-
   render() {
     const { playing, dice, locked, rollsLeft, rolling, scores } = this.state;
     return (
@@ -177,7 +150,7 @@ class Game extends Component {
               </div>
             </section>
           ) : (
-            this.renderGameWelcome()
+            ""
           )}
         </header>
         {playing ? <ScoreTable doScore={this.doScore} scores={scores} /> : ""}

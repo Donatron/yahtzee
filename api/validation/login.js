@@ -19,8 +19,6 @@ module.exports = function validateLoginData(data) {
     errors.password = "Please enter your password";
   }
 
-  console.log(errors);
-
   return {
     errors,
     isValid: Object.keys(errors).length === 0

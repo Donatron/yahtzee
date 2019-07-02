@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { loginUser } from "./actions";
+import { loginUser } from "../../actions";
 
 import "./Login.css";
 

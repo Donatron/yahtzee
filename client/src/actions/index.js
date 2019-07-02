@@ -5,6 +5,7 @@ import setAuthToken from "../utils/setAuthToken";
 import {
   REGISTER_USER,
   LOGIN_USER,
+  LOGOUT_USER,
   SET_CURRENT_USER,
   GET_ERRORS
 } from "./types";
@@ -46,7 +47,7 @@ export const loginUser = (user, history) => dispatch => {
 
       dispatch(setCurrentUser(decoded));
 
-      history.push("./profile");
+      history.push("./");
 
       dispatch({
         type: LOGIN_USER,
@@ -63,10 +64,16 @@ export const loginUser = (user, history) => dispatch => {
     });
 };
 
+export const logoutUser = () => {
+  return {
+    type: LOGOUT_USER
+  };
+};
+
 export const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
-    payload: decoded
+    payload: { user: decoded }
   };
 };
 

@@ -1,0 +1,18 @@
+.Home {
+  font-family: "Roboto";
+  color: white;
+  width: 700px;
+  min-height: 60vh;
+  background: -webkit-linear-gradient(135deg, #673ab7, #9c27b0);
+  background: -o-linear-gradient(135deg, #673ab7, #9c27b0);
+  background: linear-gradient(-45deg, #673ab7, #9c27b0);
+  background-size: 400% 400%;
+  -webkit-animation: Gradient 15s ease infinite;
+  animation: Gradient 15s ease infinite;
+  position: relative;
+  padding: 30px 0;
+}
+
+.Home .Game-welcome-button-wrapper {
+  margin-top: 50px;
+}

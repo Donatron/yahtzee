@@ -14,15 +14,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  username: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  connections: {
-    type: Array,
-    default: []
-  },
   date: {
     type: Date,
     default: Date.now

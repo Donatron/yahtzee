@@ -4,10 +4,11 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import "./App.css";
-import Game from "./Game";
-import Login from "./Login";
-import Register from "./Register";
-import Profile from "./Profile";
+import Home from "./components/Home/Home";
+import Game from "./components/Game/Game";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
+import Profile from "./components/Profile/Profile";
 
 class App extends Component {
   render() {
@@ -18,7 +19,8 @@ class App extends Component {
             <Route path="/profile" exact component={Profile} />
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
-            <Route path="/" exact component={Game} />
+            <Route path="/game" exact component={Game} />
+            <Route path="/" exact component={Home} />
           </div>
         </Router>
       </Provider>

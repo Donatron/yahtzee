@@ -11,13 +11,6 @@
   position: relative;
 }
 
-.Register-form .profileImage {
-  margin-top: -178px;
-  height: 120px;
-  border-radius: 50%;
-  box-shadow: 0 40px 48px rgba(0, 0, 0, 0.3), 0 25px 12px rgba(0, 0, 0, 0.1);
-}
-
 .Register-form h1 {
   color: white;
   margin: 20px 0 0 0;

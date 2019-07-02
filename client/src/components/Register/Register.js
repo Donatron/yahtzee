@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { registerUser } from "./actions";
+import { registerUser } from "../../actions";
 
 import "./Register.css";
 
@@ -15,7 +15,6 @@ class Register extends Component {
       email: "",
       password: "",
       passwordConfirm: "",
-      username: "",
       errors: {}
     };
 
@@ -32,15 +31,14 @@ class Register extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const { name, email, password, passwordConfirm, username } = this.state;
+    const { name, email, password, passwordConfirm } = this.state;
 
     // Create new user object to pass to backend api
     const newUser = {
       name,
       email,
       password,
-      passwordConfirm,
-      username
+      passwordConfirm
     };
 
     console.log(newUser);
@@ -106,18 +104,6 @@ class Register extends Component {
               ) : (
                 ""
               )}
-            </div>
-            <div className="Register-form-input">
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                name="username"
-                id="username"
-                placeholder="enter username"
-                onChange={this.handleChange}
-                className={errors.username ? "is-invalid" : ""}
-              />
-              {errors.username ? <small>{errors.username}</small> : ""}
             </div>
           </div>
           <button type="submit" className="btn btn-primary btn-lg">

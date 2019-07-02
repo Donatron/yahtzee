@@ -1,16 +1,16 @@
 const Validator = require("validator");
 const isEmpty = require("./is-empty");
 
-let errors = {};
-
 module.exports = function validateRegistrationData(data) {
+  // Create empty object for storing validation errors
+  let errors = {};
+
   data.name = !isEmpty(data.name) ? data.name : "";
   data.email = !isEmpty(data.email) ? data.email : "";
   data.password = !isEmpty(data.password) ? data.password : "";
   data.passwordConfirm = !isEmpty(data.passwordConfirm)
     ? data.passwordConfirm
     : "";
-  data.username = !isEmpty(data.username) ? data.username : "";
 
   if (Validator.isEmpty(data.name)) {
     errors.name = "Please enter your name";
@@ -42,10 +42,6 @@ module.exports = function validateRegistrationData(data) {
 
   if (!Validator.equals(data.password, data.passwordConfirm)) {
     errors.passwordConfirm = "Passwords do not match";
-  }
-
-  if (Validator.isEmpty(data.username)) {
-    errors.username = "Please enter a user name";
   }
 
   return {
