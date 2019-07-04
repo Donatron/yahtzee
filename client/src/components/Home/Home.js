@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { logoutUser } from "../../actions";
 
 import "./Home.css";
 import HomeHeader from "./HomeHeader";
@@ -10,17 +11,19 @@ class Home extends Component {
     super(props);
 
     this.renderButtons = this.renderButtons.bind(this);
+    this.logoutUser = this.logoutUser.bind(this);
   }
 
   logoutUser() {
     // Remove JWT
     localStorage.removeItem("jwtToken");
-    // TODO: Clear state.auth
+
+    // Clear logged in user from state.auth
+    this.props.logoutUser();
   }
 
   renderButtons() {
     const { auth } = this.props;
-    console.log(auth);
 
     if (auth.isAuthenticated) {
       return (
@@ -59,4 +62,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Home);
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(Home);
