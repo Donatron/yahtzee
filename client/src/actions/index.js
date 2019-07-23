@@ -7,6 +7,8 @@ import {
   LOGIN_USER,
   LOGOUT_USER,
   SET_CURRENT_USER,
+  GET_PROFILE,
+  PROFILE_ERROR,
   GET_ERRORS
 } from "./types";
 
@@ -77,9 +79,27 @@ export const setCurrentUser = decoded => {
   };
 };
 
+export const getCurrentProfile = () => async dispatch => {
+  try {
+    const request = await axios.get("/profile");
+
+    dispatch({
+      type: GET_PROFILE,
+      payload: request.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { message: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
 export const clearErrors = () => {
   return {
     type: GET_ERRORS,
     payload: {}
   };
 };
+
+export const createProfile = formData => async dispatch => {};

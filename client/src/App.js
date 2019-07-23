@@ -9,6 +9,7 @@ import Game from "./components/Game/Game";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import Profile from "./components/Profile/Profile";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 class App extends Component {
   render() {

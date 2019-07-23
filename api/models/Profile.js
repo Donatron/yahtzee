@@ -10,6 +10,10 @@ const ProfileSchema = new Schema({
     type: String,
     required: true
   },
+  usernameLowerCase: {
+    type: String,
+    required: true
+  },
   location: {
     type: String,
     required: true

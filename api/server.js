@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const keys = require("./config/keys");
+const auth = require("./middleware/auth");
 
 // Load validation files
 const validateLoginData = require("./validation/login");
@@ -26,16 +27,16 @@ app.use(cors());
 // connect to database
 connectDB();
 
+// Test route
 app.get("/", (req, res) => {
   res.json({
     title: "We are go for nodemon"
   });
 });
 
-app.post("/test", (req, res) => {
-  res.json(req.body);
-});
-
+// @route POST register
+// @desc Allows new users to register
+// @access Public
 app.post("/register", async (req, res) => {
   // Validate form input
   const { errors, isValid } = validateRegistrationData(req.body);
@@ -45,7 +46,7 @@ app.post("/register", async (req, res) => {
     return res.status(400).json(errors);
   }
 
-  const { name, email, password, username } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -58,10 +59,8 @@ app.post("/register", async (req, res) => {
     user = new User({
       name,
       email,
-      password,
-      username
+      password
     });
-
     // Generate salt for password encryption
     const salt = await bcrypt.genSalt(10);
 
@@ -72,7 +71,7 @@ app.post("/register", async (req, res) => {
     user
       .save()
       .then(user => {
-        res.json(user);
+        return res.json(user);
       })
       .catch(err => console.log(err));
   } catch (err) {
@@ -80,6 +79,9 @@ app.post("/register", async (req, res) => {
   }
 });
 
+// @route POST login
+// @desc Login user and return JWT token
+// @access Public
 app.post("/login", async (req, res) => {
   // Run input validation
   const { errors, isValid } = validateLoginData(req.body);
@@ -103,9 +105,11 @@ app.post("/login", async (req, res) => {
         if (isMatch) {
           // Prepare payload for jsonwebtoken
           const payload = {
-            id: user.id,
-            name: user.name
+            user: {
+              id: user.id
+            }
           };
+
           // sign token
           jwt.sign(
             payload,
@@ -131,23 +135,93 @@ app.post("/login", async (req, res) => {
       });
     })
     .catch(err => {
-      console.log("Catch running");
       res.status(500).json({
         errors: "Server error"
       });
     });
-
-  // res.json({
-  //   success: "Logged in"
-  // });
 });
 
-app.post("/profile", async (req, res) => {
-  // Validate form data
-  let { errors, isValid } = validateProfileData(req.body);
+// @route GET profile
+// @desc Allows user to view profile
+// @access Private
+app.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    // Create error object to store any profile loading errors
+    const errors = {};
 
+    Profile.findOne({ user: req.user.id })
+      .populate("user")
+      .then(profile => {
+        if (!profile) {
+          errors.noprofile = "Profile not found for current user";
+          res.status(404).json(errors);
+        }
+
+        res.json(profile);
+      })
+      .catch(err => {
+        res.status(404).json({ profile: "No profile for this user" });
+      });
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+  }
+);
+
+// @route POST profile
+// @desc Allows users to create and update profile
+// @access Private
+app.post("/profile", auth, async (req, res) => {
+  // Validate form input
+  const { errors, isValid } = validateProfileData(req.body);
+
+  // If validation errors exits, pass to server response
   if (!isValid) {
     return res.status(400).json(errors);
+  }
+
+  const { username, location, country } = req.body;
+  const profileFields = { username, location, country };
+  profileFields.user = req.user.id;
+  profileFields.usernameLowerCase = profileFields.username.toLowerCase();
+
+  // Check whether profile exists.
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+
+    // Check if username already taken
+    const profileUsername = await Profile.findOne({
+      usernameLowerCase: profileFields.username.toLowerCase()
+    });
+
+    if (profileUsername && profileUsername.user.toString() !== req.user.id) {
+      return res.status(401).json({ username: "Username already taken" });
+    }
+
+    // If username available, update Profile
+    if (profile) {
+      // Update existing profile
+      profile = await Profile.findOneAndUpdate(
+        { user: req.user.id },
+        {
+          $set: profileFields
+        },
+        { new: true }
+      );
+      return res.json(profile);
+    }
+
+    // If no profile, create new one and save
+    profile = new Profile(profileFields);
+
+    await profile.save();
+
+    return res.json(profile);
+  } catch (error) {
+    return res.status(500).send("Server error");
   }
 });
 
