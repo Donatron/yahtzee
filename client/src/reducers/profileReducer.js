@@ -2,7 +2,8 @@ import { GET_PROFILE, PROFILE_ERROR } from "../actions/types";
 
 const initialState = {
   profile: null,
-  profiles: []
+  profiles: [],
+  loading: true
 };
 
 export default function(state = initialState, action) {
@@ -10,12 +11,14 @@ export default function(state = initialState, action) {
     case GET_PROFILE:
       return {
         ...state,
-        profile: action.payload
+        profile: action.payload,
+        loading: false
       };
     case PROFILE_ERROR:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        loading: false
       };
     default:
       return state;

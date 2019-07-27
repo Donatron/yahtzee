@@ -3,7 +3,7 @@ const keys = require("../config/keys");
 
 module.exports = function(req, res, next) {
   // Get token from header
-  let token = req.header("x-auth-token");
+  let token = req.header("Authorization");
   token = token.split(" ")[1];
 
   // Check if no token

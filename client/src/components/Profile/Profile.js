@@ -4,12 +4,14 @@ import { connect } from "react-redux";
 import { getCurrentProfile } from "../../actions";
 
 import "./Profile.css";
+import Spinner from "../Spinner/Spinner";
 
 class Profile extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      name: "",
       username: "",
       location: "",
       country: ""
@@ -35,16 +37,30 @@ class Profile extends Component {
     this.props.getCurrentProfile();
   }
 
-  render() {
-    console.log(this.state);
-    const { auth, profile } = this.props;
-    const name = "Don Macarthur";
-    const errors = {};
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { profile } = this.props;
 
-    return (
+    if (prevProps.profile !== profile) {
+      this.setState({
+        name: profile.profile.user.name.split(" ")[0],
+        username: profile.profile.username,
+        location: profile.profile.location,
+        country: profile.profile.country
+      });
+    }
+  }
+
+  render() {
+    const { auth, profile } = this.props;
+    const errors = {};
+    const { name, username, location, country } = this.state;
+
+    return profile.loading ? (
+      <Spinner />
+    ) : (
       <div className="Profile">
         <form className="Profile-form" onSubmit={this.handleSubmit}>
-          <h1>{name ? `${name}'s Profile` : "Enter Profile Information"}</h1>
+          <h1>{name}'s Profile</h1>
           <div className="form-group">
             <div className="Profile-form-input">
               <label htmlFor="username">Username</label>
@@ -54,11 +70,7 @@ class Profile extends Component {
                 id="username"
                 placeholder="enter username"
                 onChange={this.handleChange}
-                value={
-                  profile.profile
-                    ? profile.profile.username
-                    : this.state.username
-                }
+                value={this.state.username}
                 className={errors.username ? "is-invalid" : ""}
               />
               {errors.username ? <small>{errors.username}</small> : ""}
@@ -73,11 +85,7 @@ class Profile extends Component {
                 id="location"
                 placeholder="enter location"
                 onChange={this.handleChange}
-                value={
-                  profile.profile
-                    ? profile.profile.location
-                    : this.state.location
-                }
+                value={location}
                 className={errors.location ? "is-invalid" : ""}
               />
               {errors.location ? <small>{errors.location}</small> : ""}
@@ -92,16 +100,14 @@ class Profile extends Component {
                 id="country"
                 placeholder="enter country"
                 onChange={this.handleChange}
-                value={
-                  profile.profile ? profile.profile.country : this.state.country
-                }
+                value={country}
                 className={errors.country ? "is-invalid" : ""}
               />
               {errors.country ? <small>{errors.country}</small> : ""}
             </div>
           </div>
           <button type="submit" className="btn btn-primary btn-lg">
-            {name ? "Update Profile" : "Submit Profile"}
+            {profile.name ? "Update Profile" : "Submit Profile"}
           </button>
           <Link to="/">
             <i className="fas fa-arrow-left Profile-return">

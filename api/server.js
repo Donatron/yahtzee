@@ -144,32 +144,28 @@ app.post("/login", async (req, res) => {
 // @route GET profile
 // @desc Allows user to view profile
 // @access Private
-app.get(
-  "/profile",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    // Create error object to store any profile loading errors
-    const errors = {};
+app.get("/profile", auth, async (req, res) => {
+  // Create error object to store any profile loading errors
+  const errors = {};
 
-    Profile.findOne({ user: req.user.id })
-      .populate("user")
-      .then(profile => {
-        if (!profile) {
-          errors.noprofile = "Profile not found for current user";
-          res.status(404).json(errors);
-        }
+  Profile.findOne({ user: req.user.id })
+    .populate("user")
+    .then(profile => {
+      if (!profile) {
+        errors.noprofile = "Profile not found for current user";
+        res.status(404).json(errors);
+      }
 
-        res.json(profile);
-      })
-      .catch(err => {
-        res.status(404).json({ profile: "No profile for this user" });
-      });
+      return res.json(profile);
+    })
+    .catch(err => {
+      res.status(404).json({ profile: "No profile for this user" });
+    });
 
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
+  if (!isValid) {
+    return res.status(400).json(errors);
   }
-);
+});
 
 // @route POST profile
 // @desc Allows users to create and update profile

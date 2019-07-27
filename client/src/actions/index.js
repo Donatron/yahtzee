@@ -75,13 +75,13 @@ export const logoutUser = () => {
 export const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
-    payload: { user: decoded }
+    payload: decoded
   };
 };
 
 export const getCurrentProfile = () => async dispatch => {
   try {
-    const request = await axios.get("/profile");
+    const request = await axios.get("http://localhost:9000/profile");
 
     dispatch({
       type: GET_PROFILE,
