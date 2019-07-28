@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getCurrentProfile } from "../../actions";
+import { getCurrentProfile, createProfile } from "../../actions";
 
 import "./Profile.css";
 import Spinner from "../Spinner/Spinner";
@@ -31,6 +31,17 @@ class Profile extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+
+    const { username, location, country } = this.state;
+    const { createProfile } = this.props;
+
+    const formData = {
+      username,
+      location,
+      country
+    };
+
+    createProfile(formData);
   }
 
   componentDidMount() {
@@ -51,7 +62,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { auth, profile } = this.props;
+    const { profile } = this.props;
     const errors = {};
     const { name, username, location, country } = this.state;
 
@@ -70,7 +81,7 @@ class Profile extends Component {
                 id="username"
                 placeholder="enter username"
                 onChange={this.handleChange}
-                value={this.state.username}
+                value={username}
                 className={errors.username ? "is-invalid" : ""}
               />
               {errors.username ? <small>{errors.username}</small> : ""}
@@ -129,5 +140,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, createProfile }
 )(Profile);

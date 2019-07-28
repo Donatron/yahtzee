@@ -7,6 +7,7 @@ import {
   LOGIN_USER,
   LOGOUT_USER,
   SET_CURRENT_USER,
+  CREATE_PROFILE,
   GET_PROFILE,
   PROFILE_ERROR,
   GET_ERRORS
@@ -17,7 +18,7 @@ export const registerUser = (userData, history) => dispatch => {
   dispatch(clearErrors());
 
   axios
-    .post(`http://localhost:9000/register`, userData)
+    .post(`/register`, userData)
     .then(res => {
       history.push("/login");
     })
@@ -35,7 +36,7 @@ export const registerUser = (userData, history) => dispatch => {
 
 export const loginUser = (user, history) => dispatch => {
   axios
-    .post("http://localhost:9000/login", user)
+    .post("login", user)
     .then(res => {
       // Save token to local storage
       const { token } = res.data;
@@ -72,16 +73,29 @@ export const logoutUser = () => {
   };
 };
 
-export const setCurrentUser = decoded => {
-  return {
-    type: SET_CURRENT_USER,
-    payload: decoded
-  };
+export const setCurrentUser = decoded => async dispatch => {
+  if (localStorage.jwtToken) {
+    setAuthToken(localStorage.jwtToken);
+  }
+
+  try {
+    const response = await axios.get("/user");
+
+    dispatch({
+      type: SET_CURRENT_USER,
+      payload: response.data
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
+    });
+  }
 };
 
 export const getCurrentProfile = () => async dispatch => {
   try {
-    const request = await axios.get("http://localhost:9000/profile");
+    const request = await axios.get("/profile");
 
     dispatch({
       type: GET_PROFILE,
@@ -102,4 +116,28 @@ export const clearErrors = () => {
   };
 };
 
-export const createProfile = formData => async dispatch => {};
+export const createProfile = formData => async dispatch => {
+  console.log(formData);
+  if (localStorage.jwtToken) {
+    setAuthToken(localStorage.jwtToken);
+  }
+
+  try {
+    const response = await axios.post(
+      "http://localhost:9000/profile",
+      formData
+    );
+
+    dispatch({
+      type: CREATE_PROFILE,
+      payload: response.data
+    });
+
+    dispatch(getCurrentProfile());
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
+    });
+  }
+};

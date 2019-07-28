@@ -141,6 +141,28 @@ app.post("/login", async (req, res) => {
     });
 });
 
+// @route GET user
+// @desc Returns details of logged in user
+// @access Private
+app.get("/user", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select([
+      "-password",
+      "-email",
+      "-date"
+    ]);
+
+    if (!user) {
+      return res.json({ user: "Not found" });
+    }
+
+    return res.json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: "User error" });
+  }
+});
+
 // @route GET profile
 // @desc Allows user to view profile
 // @access Private
@@ -149,7 +171,7 @@ app.get("/profile", auth, async (req, res) => {
   const errors = {};
 
   Profile.findOne({ user: req.user.id })
-    .populate("user")
+    .populate("user", ["name"])
     .then(profile => {
       if (!profile) {
         errors.noprofile = "Profile not found for current user";
@@ -161,10 +183,6 @@ app.get("/profile", auth, async (req, res) => {
     .catch(err => {
       res.status(404).json({ profile: "No profile for this user" });
     });
-
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
 });
 
 // @route POST profile
@@ -186,7 +204,10 @@ app.post("/profile", auth, async (req, res) => {
 
   // Check whether profile exists.
   try {
-    let profile = await Profile.findOne({ user: req.user.id });
+    let profile = await Profile.findOne({ user: req.user.id }).populate(
+      "user",
+      ["name"]
+    );
 
     // Check if username already taken
     const profileUsername = await Profile.findOne({
@@ -206,7 +227,7 @@ app.post("/profile", auth, async (req, res) => {
           $set: profileFields
         },
         { new: true }
-      );
+      ).populate("user", ["name"]);
       return res.json(profile);
     }
 
