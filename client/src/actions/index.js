@@ -1,8 +1,11 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../utils/setAuthToken";
+import uuid from "uuid";
 
 import {
+  SET_ALERT,
+  REMOVE_ALERT,
   REGISTER_USER,
   LOGIN_USER,
   LOGOUT_USER,
@@ -12,6 +15,24 @@ import {
   PROFILE_ERROR,
   GET_ERRORS
 } from "./types";
+
+export const setAlert = (msg, timeout = 5000) => dispatch => {
+  const id = uuid.v4();
+  dispatch({
+    type: SET_ALERT,
+    payload: {
+      msg,
+      id
+    }
+  });
+
+  setTimeout(() => {
+    dispatch({
+      type: REMOVE_ALERT,
+      payload: id
+    });
+  }, timeout);
+};
 
 export const registerUser = (userData, history) => dispatch => {
   // Clear existing errors;
@@ -117,7 +138,6 @@ export const clearErrors = () => {
 };
 
 export const createProfile = formData => async dispatch => {
-  console.log(formData);
   if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
   }
@@ -134,6 +154,8 @@ export const createProfile = formData => async dispatch => {
     });
 
     dispatch(getCurrentProfile());
+
+    dispatch(setAlert("Your profile has been updated!"));
   } catch (error) {
     dispatch({
       type: GET_ERRORS,

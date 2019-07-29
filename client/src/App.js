@@ -10,6 +10,7 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import Profile from "./components/Profile/Profile";
 import setAuthToken from "./utils/setAuthToken";
+import PrivateRoute from "./components/Routing/PrivateRoute";
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
@@ -21,7 +22,7 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-            <Route path="/profile" exact component={Profile} />
+            <PrivateRoute path="/profile" exact component={Profile} />
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
             <Route path="/game" exact component={Game} />

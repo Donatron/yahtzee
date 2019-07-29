@@ -62,7 +62,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { profile } = this.props;
+    const { profile, alert } = this.props;
     const errors = {};
     const { name, username, location, country } = this.state;
 
@@ -72,6 +72,7 @@ class Profile extends Component {
       <div className="Profile">
         <form className="Profile-form" onSubmit={this.handleSubmit}>
           <h1>{name}'s Profile</h1>
+          {alert.msg ? <p>{alert.msg}</p> : ""}
           <div className="form-group">
             <div className="Profile-form-input">
               <label htmlFor="username">Username</label>
@@ -134,7 +135,8 @@ class Profile extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    profile: state.profile
+    profile: state.profile,
+    alert: state.alert
   };
 };
 
