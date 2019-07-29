@@ -16,6 +16,7 @@ const validateProfileData = require("./validation/profile");
 // Import mongoose models
 const User = require("./models/User");
 const Profile = require("./models/Profile");
+const Score = require("./models/Score");
 
 const PORT = process.env.PORT || 9000;
 
@@ -240,6 +241,59 @@ app.post("/profile", auth, async (req, res) => {
   } catch (error) {
     return res.status(500).send("Server error");
   }
+});
+
+// @route POST score
+// @desc Allows users to save scores
+// @access Private
+app.post("/score", auth, async (req, res) => {
+  // Prepare score object
+  const {
+    ones,
+    twos,
+    threes,
+    fours,
+    fives,
+    sixes,
+    threeOfKind,
+    fourOfKind,
+    fullHouse,
+    smallStraight,
+    largeStraight,
+    yahtzee,
+    chance,
+    totalScore
+  } = req.body;
+
+  const scoreData = {
+    totalScore
+  };
+
+  // Build score card object
+  scoreData.scoreCard = {};
+  scoreData.scoreCard.ones = ones;
+  scoreData.scoreCard.twos = twos;
+  scoreData.scoreCard.threes = threes;
+  scoreData.scoreCard.fours = fours;
+  scoreData.scoreCard.fives = fives;
+  scoreData.scoreCard.sixes = sixes;
+  scoreData.scoreCard.threeOfKind = threeOfKind;
+  scoreData.scoreCard.fourOfKind = fourOfKind;
+  scoreData.scoreCard.fullHouse = fullHouse;
+  scoreData.scoreCard.smallStraight = smallStraight;
+  scoreData.scoreCard.largeStraight = largeStraight;
+  scoreData.scoreCard.yahtzee = yahtzee;
+  scoreData.scoreCard.chance = chance;
+
+  scoreData.user = req.user.id;
+
+  const score = new Score(scoreData);
+
+  console.log(scoreData);
+
+  await score.save();
+
+  return res.json(score);
 });
 
 app.listen(PORT, () => {
