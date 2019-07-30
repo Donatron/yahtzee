@@ -289,8 +289,6 @@ app.post("/score", auth, async (req, res) => {
 
   const score = new Score(scoreData);
 
-  console.log(scoreData);
-
   await score.save();
 
   return res.json(score);

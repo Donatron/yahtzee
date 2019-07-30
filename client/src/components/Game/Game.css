@@ -31,6 +31,18 @@ h2 {
   margin-top: 0;
 }
 
+.Game-completed-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.Game-save {
+  width: 100%;
+}
+
 .Game-button-wrapper {
   display: flex;
   justify-content: center;

@@ -8,3 +8,5 @@ export const GET_PROFILE = "GET_PROFILE";
 export const CREATE_PROFILE = "CREATE_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";
 export const GET_ERRORS = "GET_ERRORS";
+export const SAVE_SCORE = "SAVE_SCORE";
+export const HIDE_SAVE_BUTTON = "HIDE_SAVE_BUTTON";

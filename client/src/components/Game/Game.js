@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { saveScore, hideSaveButton } from "../../actions";
 
 import Dice from "../Dice/Dice";
 import ScoreTable from "../ScoreTable/ScoreTable";
@@ -17,6 +17,7 @@ class Game extends Component {
     super(props);
     this.state = {
       playing: true,
+      gameCompleted: false,
       playerType: null,
       dice: Array.from({ length: NUM_DICE }),
       locked: Array(NUM_DICE).fill(false),
@@ -45,6 +46,9 @@ class Game extends Component {
     this.doScore = this.doScore.bind(this);
     this.toggleLocked = this.toggleLocked.bind(this);
     this.animateRoll = this.animateRoll.bind(this);
+    this.getTotalScore = this.getTotalScore.bind(this);
+    this.saveScoreCard = this.saveScoreCard.bind(this);
+    this.replayGame = this.replayGame.bind(this);
   }
 
   componentDidMount() {
@@ -108,8 +112,12 @@ class Game extends Component {
       locked: Array(NUM_DICE).fill(false)
     }));
 
-    if (this.state.scoresFilled < 12) {
-      this.animateRoll();
+    this.animateRoll();
+
+    if (this.state.scoresFilled === 12) {
+      this.setState({
+        gameCompleted: true
+      });
     }
   }
 
@@ -124,13 +132,121 @@ class Game extends Component {
     return messages[this.state.rollsLeft];
   }
 
+  getTotalScore() {
+    const { scores } = this.state;
+    let totalScore = 0;
+
+    for (let score in scores) {
+      totalScore += scores[score];
+    }
+
+    return totalScore;
+  }
+
+  saveScoreCard() {
+    const {
+      ones,
+      twos,
+      threes,
+      fours,
+      fives,
+      sixes,
+      threeOfKind,
+      fourOfKind,
+      fullHouse,
+      smallStraight,
+      largeStraight,
+      yahtzee,
+      chance
+    } = this.state.scores;
+
+    const totalScore = this.getTotalScore();
+
+    const scoreData = {
+      totalScore,
+      ones,
+      twos,
+      threes,
+      fours,
+      fives,
+      sixes,
+      threeOfKind,
+      fourOfKind,
+      fullHouse,
+      smallStraight,
+      largeStraight,
+      yahtzee,
+      chance
+    };
+
+    this.props.saveScore(scoreData);
+  }
+
+  replayGame() {
+    this.props.hideSaveButton();
+
+    this.setState({
+      gameCompleted: false,
+      scoresFilled: SCORES_FILLED,
+      scores: {
+        ones: undefined,
+        twos: undefined,
+        threes: undefined,
+        fours: undefined,
+        fives: undefined,
+        sixes: undefined,
+        threeOfKind: undefined,
+        fourOfKind: undefined,
+        fullHouse: undefined,
+        smallStraight: undefined,
+        largeStraight: undefined,
+        yahtzee: undefined,
+        chance: undefined
+      }
+    });
+  }
+
   render() {
-    const { playing, dice, locked, rollsLeft, rolling, scores } = this.state;
+    const {
+      playing,
+      gameCompleted,
+      dice,
+      locked,
+      rollsLeft,
+      rolling,
+      scores
+    } = this.state;
+
+    const {
+      score,
+      auth: { isAuthenticated }
+    } = this.props;
+
     return (
       <div className="Game">
         <header className="Game-header">
           <h1 className="App-title">Yahtzee!</h1>
-          {playing ? (
+          {gameCompleted && isAuthenticated ? (
+            <section className="Game-completed-section">
+              {score.showSaveButton ? (
+                <div className="Game-save">
+                  <h4>Congratulations! You scored {this.getTotalScore()}</h4>
+                  <p>What would you like to do?</p>
+                  <button onClick={this.saveScoreCard} className="Game-reroll">
+                    Save Score Card
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+              <button onClick={this.replayGame} className="Game-reroll">
+                Play again
+              </button>
+            </section>
+          ) : (
+            ""
+          )}
+          {playing && !gameCompleted ? (
             <section className="Game-dice-section">
               <Dice
                 dice={dice}
@@ -161,8 +277,12 @@ class Game extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    score: state.score
   };
 };
 
-export default connect(mapStateToProps)(Game);
+export default connect(
+  mapStateToProps,
+  { saveScore, hideSaveButton }
+)(Game);

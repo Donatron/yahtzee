@@ -95,7 +95,6 @@ class LargeStraight extends Rule {
 }
 
 /** Check if all dice are same. */
-
 class Yahtzee extends Rule {
   evalRoll = dice => {
     // all dice must be the same

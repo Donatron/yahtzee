@@ -6,14 +6,15 @@ import uuid from "uuid";
 import {
   SET_ALERT,
   REMOVE_ALERT,
-  REGISTER_USER,
   LOGIN_USER,
   LOGOUT_USER,
   SET_CURRENT_USER,
   CREATE_PROFILE,
   GET_PROFILE,
   PROFILE_ERROR,
-  GET_ERRORS
+  GET_ERRORS,
+  SAVE_SCORE,
+  HIDE_SAVE_BUTTON
 } from "./types";
 
 export const setAlert = (msg, timeout = 5000) => dispatch => {
@@ -67,9 +68,9 @@ export const loginUser = (user, history) => dispatch => {
       setAuthToken(token);
 
       // Decode token to get user data
-      const decoded = jwt_decode(token);
+      // const decoded = jwt_decode(token);
 
-      dispatch(setCurrentUser(decoded));
+      dispatch(setCurrentUser());
 
       history.push("./");
 
@@ -81,6 +82,7 @@ export const loginUser = (user, history) => dispatch => {
       dispatch(clearErrors());
     })
     .catch(err => {
+      console.log(err);
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
@@ -94,7 +96,7 @@ export const logoutUser = () => {
   };
 };
 
-export const setCurrentUser = decoded => async dispatch => {
+export const setCurrentUser = () => async dispatch => {
   if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
   }
@@ -162,4 +164,32 @@ export const createProfile = formData => async dispatch => {
       payload: error.response.data
     });
   }
+};
+
+export const saveScore = scoreData => async dispatch => {
+  if (localStorage.jwtToken) {
+    setAuthToken(localStorage.jwtToken);
+  }
+
+  try {
+    const response = await axios.post("http://localhost:9000/score", scoreData);
+
+    dispatch({
+      type: SAVE_SCORE,
+      payload: response.data
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
+    });
+  }
+
+  dispatch(hideSaveButton());
+};
+
+export const hideSaveButton = () => dispatch => {
+  dispatch({
+    type: HIDE_SAVE_BUTTON
+  });
 };
