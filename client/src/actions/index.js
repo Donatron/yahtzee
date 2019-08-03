@@ -14,6 +14,9 @@ import {
   PROFILE_ERROR,
   GET_ERRORS,
   SAVE_SCORE,
+  GET_SCORES,
+  GET_SCORE,
+  CLEAR_SCORE,
   HIDE_SAVE_BUTTON
 } from "./types";
 
@@ -78,6 +81,8 @@ export const loginUser = (user, history) => dispatch => {
         type: LOGIN_USER,
         payload: res.data
       });
+
+      dispatch(getCurrentProfile());
 
       dispatch(clearErrors());
     })
@@ -191,5 +196,43 @@ export const saveScore = scoreData => async dispatch => {
 export const hideSaveButton = () => dispatch => {
   dispatch({
     type: HIDE_SAVE_BUTTON
+  });
+};
+
+export const getScores = () => async dispatch => {
+  try {
+    const response = await axios.get("http://localhost:9000/score");
+
+    dispatch({
+      type: GET_SCORES,
+      payload: response.data
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
+    });
+  }
+};
+
+export const getScore = id => async dispatch => {
+  try {
+    const response = await axios.get(`http://localhost:9000/score/${id}`);
+
+    dispatch({
+      type: GET_SCORE,
+      payload: response.data
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.resposne.data
+    });
+  }
+};
+
+export const clearScore = () => dispatch => {
+  dispatch({
+    type: CLEAR_SCORE
   });
 };

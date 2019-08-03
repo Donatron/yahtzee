@@ -41,6 +41,7 @@ class Home extends Component {
           <Link to="/game">Play as a guest</Link>
           <Link to="/register">Register</Link>
           <Link to="/login">Log In</Link>
+          <Link to="/leaderboard">View Leaderboard</Link>
         </div>
       );
     }

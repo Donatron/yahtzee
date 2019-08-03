@@ -1,0 +1,51 @@
+.ScoreCard {
+  font-family: "Roboto";
+  color: white;
+  width: 700px;
+  height: 100%;
+  background: -webkit-linear-gradient(135deg, #673ab7, #9c27b0);
+  background: -o-linear-gradient(135deg, #673ab7, #9c27b0);
+  background: linear-gradient(-45deg, #673ab7, #9c27b0);
+  background-size: 400% 400%;
+  -webkit-animation: Gradient 15s ease infinite;
+  animation: Gradient 15s ease infinite;
+  position: relative;
+  padding: 30px 0 0 0;
+}
+
+.ScoreCard .ScoreTable {
+  color: #212529;
+  width: 100%;
+}
+
+.ScoreCard .RuleRow-disabled td:first-child {
+  text-decoration: none !important;
+}
+
+.ScoreCard .RuleRow-disabled {
+  background: white !important;
+}
+
+.ScoreCard .nav-links a {
+  font-family: "Roboto" !important;
+  color: white;
+  text-decoration: none;
+  -webkit-transition: 0.25s ease-in;
+  -o-transition: 0.25s ease-in;
+  transition: 0.25s ease-in;
+}
+
+.ScoreCard .nav-links {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 10px 5px 5px;
+}
+
+.ScoreCard .nav-links span {
+  transition: 0.25s ease-in;
+}
+
+.ScoreCard .nav-links span:hover {
+  color: #212529;
+  opacity: 0.8;
+}

@@ -10,8 +10,6 @@ const NUM_DICE = 5;
 const NUM_ROLLS = 3;
 const SCORES_FILLED = 0;
 
-// !: Fix bug where Yahtzee is able to be saved on first page load
-
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -104,6 +102,10 @@ class Game extends Component {
   }
 
   doScore(rulename, ruleFn) {
+    // Prevent Scores being saved on game load
+    if (this.state.rollsLeft === 3 && this.state.scoresFilled === 0) {
+      return;
+    }
     // evaluate this ruleFn with the dice and score this rulename
     this.setState(st => ({
       scores: { ...st.scores, [rulename]: ruleFn(this.state.dice) },
@@ -160,9 +162,12 @@ class Game extends Component {
       chance
     } = this.state.scores;
 
+    const { username } = this.props.profile;
+
     const totalScore = this.getTotalScore();
 
     const scoreData = {
+      playerName: username,
       totalScore,
       ones,
       twos,
@@ -278,7 +283,8 @@ class Game extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    score: state.score
+    score: state.score,
+    profile: state.profile.profile
   };
 };
 

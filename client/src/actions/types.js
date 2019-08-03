@@ -9,4 +9,7 @@ export const CREATE_PROFILE = "CREATE_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";
 export const GET_ERRORS = "GET_ERRORS";
 export const SAVE_SCORE = "SAVE_SCORE";
+export const GET_SCORES = "GET_SCORES";
+export const GET_SCORE = "GET_SCORE";
+export const CLEAR_SCORE = "CLEAR_SCORE";
 export const HIDE_SAVE_BUTTON = "HIDE_SAVE_BUTTON";

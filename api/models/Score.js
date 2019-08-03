@@ -6,6 +6,10 @@ const ScoreSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "user"
   },
+  playerName: {
+    type: String,
+    required: true
+  },
   totalScore: {
     type: Number,
     required: true

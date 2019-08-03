@@ -249,6 +249,7 @@ app.post("/profile", auth, async (req, res) => {
 app.post("/score", auth, async (req, res) => {
   // Prepare score object
   const {
+    playerName,
     ones,
     twos,
     threes,
@@ -266,7 +267,8 @@ app.post("/score", auth, async (req, res) => {
   } = req.body;
 
   const scoreData = {
-    totalScore
+    totalScore,
+    playerName
   };
 
   // Build score card object
@@ -292,6 +294,38 @@ app.post("/score", auth, async (req, res) => {
   await score.save();
 
   return res.json(score);
+});
+
+// @route GET score
+// @desc Return a list of all saved scores
+// @access Public
+app.get("/score", async (req, res) => {
+  try {
+    const scores = await Score.find();
+
+    return res.json(scores);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
+// @route GET score/:id
+// @desc Return a detailed list of any given saved score card
+// @access Public
+app.get("/score/:id", async (req, res) => {
+  try {
+    const scoreCard = await Score.findOne({ _id: req.params.id });
+
+    if (!scoreCard) {
+      return res.json({ msg: "Sorry, unable to locate selected score card" });
+    }
+
+    return res.json(scoreCard);
+  } catch (error) {
+    return res.json({
+      error: error.message
+    });
+  }
 });
 
 app.listen(PORT, () => {
