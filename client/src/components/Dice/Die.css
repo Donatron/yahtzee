@@ -44,3 +44,22 @@
     transform: rotate(360deg);
   }
 }
+
+@media screen and (max-width: 576px) {
+  .fa-5x {
+    font-size: 3rem !important;
+  }
+
+  .Dice {
+    width: 100%;
+    margin: 20px auto !important;
+  }
+
+  .Die {
+    margin-right: 0.5rem;
+  }
+
+  .Die:last-child {
+    margin-right: 0;
+  }
+}

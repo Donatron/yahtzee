@@ -34,8 +34,6 @@ class Login extends Component {
       password
     };
 
-    // axios.post(`http://localhost:9000/login`, user);
-
     this.props.loginUser(user, this.props.history);
   }
 
@@ -87,17 +85,19 @@ class Login extends Component {
           <button type="submit" className="btn btn-primary btn-lg">
             Log In
           </button>
-          <div className="Login-register">
-            <span>Not Registered? </span>
-            <Link to="/register">
-              <em>Sign up here</em>{" "}
+          <div className="Login-nav">
+            <div className="">
+              <span>Not Registered? </span>
+              <Link to="/register">
+                <em>Sign up here</em>{" "}
+              </Link>
+            </div>
+            <Link to="/">
+              <i className="fas fa-arrow-left Login-return">
+                <span>Return to Home Page</span>
+              </i>
             </Link>
           </div>
-          <Link to="/">
-            <i className="fas fa-arrow-left Login-return">
-              <span>Return to Home Page</span>
-            </i>
-          </Link>
         </form>
       </div>
     );

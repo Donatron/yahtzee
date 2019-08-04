@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { saveScore, hideSaveButton } from "../../actions";
 
@@ -244,9 +245,6 @@ class Game extends Component {
               ) : (
                 ""
               )}
-              <button onClick={this.replayGame} className="Game-reroll">
-                Play again
-              </button>
             </section>
           ) : (
             ""
@@ -271,7 +269,14 @@ class Game extends Component {
               </div>
             </section>
           ) : (
-            ""
+            <div className="Game-button-wrapper">
+              <button onClick={this.replayGame} className="Game-reroll">
+                Play again
+              </button>
+              <button className="Game-reroll">
+                <Link to="/">Home Page</Link>
+              </button>
+            </div>
           )}
         </header>
         {playing ? <ScoreTable doScore={this.doScore} scores={scores} /> : ""}

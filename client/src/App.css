@@ -18,3 +18,10 @@
   font-size: 5rem;
   width: 50%;
 }
+
+@media screen and (max-width: 576px) {
+  .App-title {
+    font-size: 3rem;
+    width: 80%;
+  }
+}

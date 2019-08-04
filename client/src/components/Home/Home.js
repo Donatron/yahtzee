@@ -29,6 +29,7 @@ class Home extends Component {
       return (
         <div className="Game-welcome-button-wrapper">
           <Link to="/game">Play Game</Link>
+          <Link to="/leaderboard">View Leaderboard</Link>
           <Link to="/profile">View / Manage Profile</Link>
           <Link to="/" onClick={this.logoutUser}>
             Logout

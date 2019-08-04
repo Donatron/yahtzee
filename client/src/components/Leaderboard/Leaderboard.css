@@ -92,3 +92,19 @@
   color: #212529;
   opacity: 0.8;
 }
+
+@media screen and (max-width: 720px) {
+  .Leaderboard {
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .Leaderboard {
+    width: 300px;
+  }
+
+  .Leaderboard-scores table td a {
+    padding: 5px 1em;
+  }
+}

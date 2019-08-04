@@ -107,17 +107,19 @@ class Register extends Component {
           <button type="submit" className="btn btn-primary btn-lg">
             Register
           </button>
-          <div className="Register-register">
-            <span>Already Registered? </span>
-            <Link to="/login">
-              <em>Log in here</em>{" "}
+          <div className="Register-nav">
+            <div className="">
+              <span>Already Registered? </span>
+              <Link to="/login">
+                <em>Log in here</em>{" "}
+              </Link>
+            </div>
+            <Link to="/">
+              <i className="fas fa-arrow-left">
+                <span>Return to Home Page</span>
+              </i>
             </Link>
           </div>
-          <Link to="/">
-            <i className="fas fa-arrow-left Register-return">
-              <span>Return to Home Page</span>
-            </i>
-          </Link>
         </form>
       </div>
     );

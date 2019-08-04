@@ -77,6 +77,8 @@
   position: absolute;
   bottom: 10px;
   right: 20px;
+  width: 100%;
+  background-color: red;
 }
 
 .Register-form .Register-register {
@@ -86,15 +88,15 @@
   border-bottom-left-radius: 20px;
 }
 
-.Register-register span,
-.Register-register a {
+.Register-nav span,
+.nav-register a {
   font-family: "Roboto" !important;
   color: white;
   text-decoration: none;
   transition: 0.25s ease-in;
 }
 
-.Register-register a:hover,
+.Register-nav a:hover,
 .Register-form a span:hover {
   color: #212529;
   opacity: 0.8;
@@ -111,4 +113,33 @@
 
 .Register-form .fas {
   color: white;
+}
+
+.Register-nav {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: space-between;
+}
+
+.Register-nav a {
+  color: white;
+  text-decoration: none;
+  transition: 0.25s ease-in;
+}
+
+@media screen and (max-width: 576px) {
+  .Register-form h1 {
+    width: 100%;
+    font-size: 3rem;
+  }
+
+  .Register-form .form-group {
+    width: 95%;
+  }
+
+  .Register-form button {
+    width: 90%;
+  }
 }

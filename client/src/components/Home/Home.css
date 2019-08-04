@@ -16,3 +16,15 @@
 .Home .Game-welcome-button-wrapper {
   margin-top: 50px;
 }
+
+@media screen and (max-width: 720px) {
+  .Home {
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .Home {
+    width: 300px;
+  }
+}

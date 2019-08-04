@@ -45,6 +45,7 @@ h2 {
 
 .Game-button-wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -69,6 +70,10 @@ h2 {
   width: 50%;
 
   margin-bottom: 2rem;
+}
+.Game-reroll a {
+  color: white;
+  text-decoration: none;
 }
 .Game-welcome-button-wrapper {
   display: flex;
@@ -121,5 +126,35 @@ h2 {
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .Game {
+    width: 500px;
+  }
+  .Game-welcome-button-wrapper a {
+    width: 75%;
+  }
+  .Game-reroll {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .Game {
+    width: 300px;
+  }
+  .Game-welcome-button-wrapper a {
+    width: 90%;
+  }
+
+  .Game-dice-section {
+    width: 80%;
+  }
+
+  .Game-reroll {
+    width: 80%;
+    font-size: 1.5em;
   }
 }

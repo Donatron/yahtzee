@@ -49,3 +49,15 @@
   color: #212529;
   opacity: 0.8;
 }
+
+@media screen and (max-width: 720px) {
+  .ScoreCard {
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .ScoreCard {
+    width: 300px;
+  }
+}
