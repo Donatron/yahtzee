@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const keys = require("./config/keys");
 const auth = require("./middleware/auth");
+const path = require("path");
 
 // Load validation files
 const validateLoginData = require("./validation/login");
@@ -27,13 +28,6 @@ app.use(cors());
 
 // connect to database
 connectDB();
-
-// Test route
-app.get("/", (req, res) => {
-  res.json({
-    title: "We are go for nodemon"
-  });
-});
 
 // @route POST register
 // @desc Allows new users to register
@@ -327,6 +321,15 @@ app.get("/score/:id", async (req, res) => {
     });
   }
 });
+
+// Serve static assets in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`App listening on port: ${PORT}`);
