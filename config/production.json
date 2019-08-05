@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://donatron:iamdonatron@yahtzee-61fol.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "doyouwanttoknowasecret"
+}
