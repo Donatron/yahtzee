@@ -1,0 +1,163 @@
+.Login-form {
+  font-family: "Roboto";
+  color: white;
+  width: 100%;
+  min-height: 70vh;
+  background: linear-gradient(-45deg, #673ab7, #9c27b0);
+  background-size: 400% 400%;
+  -webkit-animation: Gradient 15s ease infinite;
+  -moz-animation: Gradient 15s ease infinite;
+  animation: Gradient 15s ease infinite;
+  position: relative;
+}
+
+.Login-form .profileImage {
+  margin-top: -178px;
+  height: 120px;
+  border-radius: 50%;
+  box-shadow: 0 40px 48px rgba(0, 0, 0, 0.3), 0 25px 12px rgba(0, 0, 0, 0.1);
+}
+
+.Login-form h1 {
+  color: white;
+  margin-bottom: 0;
+  font-weight: 100;
+  display: inline-block;
+  font-size: 5rem;
+  width: 50%;
+}
+
+.Login-form,
+.Login-form .form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Login-form .form-group {
+  width: 50%;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.Login-form-input {
+  width: 100%;
+  margin-top: 1.5em;
+}
+
+.Login-form-input label {
+  color: white;
+  margin: 0;
+}
+
+.Login-form .form-group input {
+  width: 100%;
+  padding: 10px 5px;
+  border-radius: 5px;
+  border: solid 1.5px gray;
+  outline: none;
+}
+
+.is-invalid {
+  /* border: solid 2px #a2003f !important; */
+  box-shadow: 3px 3px 30px 2px #91eae4;
+}
+
+.Login-form button {
+  font-size: 2em;
+  color: white;
+  text-transform: capitalize;
+  font-weight: 100;
+  transition: 0.5s;
+  background-size: 200% auto;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.1);
+  background-image: linear-gradient(
+    to right,
+    #91eae4 0%,
+    #7f7fd5 51%,
+    #91eae4 100%
+  );
+  border-radius: 0.5rem;
+  border: none;
+  width: 50%;
+
+  margin: 2rem 0;
+}
+
+.Login-form button:hover {
+  cursor: pointer;
+  background-position: right center;
+}
+
+.Login-form .Login-register {
+  position: absolute;
+  left: 20px;
+  bottom: 10px;
+  border-bottom-left-radius: 20px;
+}
+
+.Login-register span,
+.Login-register a {
+  font-family: "Roboto" !important;
+  color: white;
+  text-decoration: none;
+  transition: 0.25s ease-in;
+}
+
+.Login-register a:hover,
+.Login-form a span:hover {
+  color: #212529;
+  opacity: 0.8;
+}
+
+.Login-form a span {
+  font-family: "Roboto" !important;
+  color: white;
+  text-decoration: none;
+  font-weight: 300;
+  padding-left: 8px;
+  transition: 0.25s ease-in;
+}
+
+.Login-form .fas {
+  color: white;
+}
+
+.Login-nav {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: space-between;
+}
+
+.Login-nav a {
+  color: white;
+  text-decoration: none;
+  transition: 0.25s ease-in;
+}
+
+@media screen and (max-width: 576px) {
+  .Login-form h1 {
+    width: 100%;
+    font-size: 3rem;
+  }
+
+  .Login-form .form-group {
+    width: 95%;
+  }
+
+  .Login-form button {
+    width: 90%;
+  }
+
+  .Login-nav {
+    height: 80px;
+    flex-direction: column;
+  }
+
+  .Login-form .Login-return {
+    position: static;
+  }
+}

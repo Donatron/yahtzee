@@ -1,0 +1,15 @@
+export const SET_ALERT = "SET_ALERT";
+export const REMOVE_ALERT = "REMOVE_ALERT";
+export const REGISTER_USER = "REGISTER_USER";
+export const LOGIN_USER = "LOGIN_USER";
+export const LOGOUT_USER = "LOGOUT_USER";
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const GET_PROFILE = "GET_PROFILE";
+export const CREATE_PROFILE = "CREATE_PROFILE";
+export const PROFILE_ERROR = "PROFILE_ERROR";
+export const GET_ERRORS = "GET_ERRORS";
+export const SAVE_SCORE = "SAVE_SCORE";
+export const GET_SCORES = "GET_SCORES";
+export const GET_SCORE = "GET_SCORE";
+export const CLEAR_SCORE = "CLEAR_SCORE";
+export const HIDE_SAVE_BUTTON = "HIDE_SAVE_BUTTON";
