@@ -11,7 +11,6 @@ class Profile extends Component {
     super(props);
 
     this.state = {
-      name: "",
       username: "",
       location: "",
       country: ""
@@ -62,9 +61,11 @@ class Profile extends Component {
   }
 
   render() {
-    const { profile, alert } = this.props;
+    const { profile, alert, auth } = this.props;
     const errors = {};
-    const { name, username, location, country } = this.state;
+    const { username, location, country } = this.state;
+    let { name } = auth.user;
+    name = name.split(" ")[0];
 
     return profile.loading ? (
       <Spinner />
