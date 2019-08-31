@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { saveScore, hideSaveButton } from "../../actions";
+import { saveScore, hideSaveButton, showSaveButton } from "../../actions";
 
 import Dice from "../Dice/Dice";
 import ScoreTable from "../ScoreTable/ScoreTable";
@@ -118,6 +118,7 @@ class Game extends Component {
     this.animateRoll();
 
     if (this.state.scoresFilled === 12) {
+      this.props.score.showSaveButton ? "Show" : alert("Don't show");
       this.setState({
         gameCompleted: true
       });
@@ -193,6 +194,7 @@ class Game extends Component {
 
     this.setState({
       gameCompleted: false,
+      rollsLeft: 2,
       scoresFilled: SCORES_FILLED,
       scores: {
         ones: undefined,
@@ -295,5 +297,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { saveScore, hideSaveButton }
+  { saveScore, hideSaveButton, showSaveButton }
 )(Game);

@@ -1,5 +1,4 @@
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 import setAuthToken from "../utils/setAuthToken";
 import uuid from "uuid";
 
@@ -11,13 +10,15 @@ import {
   SET_CURRENT_USER,
   CREATE_PROFILE,
   GET_PROFILE,
+  CLEAR_PROFILE,
   PROFILE_ERROR,
   GET_ERRORS,
   SAVE_SCORE,
   GET_SCORES,
   GET_SCORE,
   CLEAR_SCORE,
-  HIDE_SAVE_BUTTON
+  HIDE_SAVE_BUTTON,
+  SHOW_SAVE_BUTTON
 } from "./types";
 
 export const setAlert = (msg, timeout = 5000) => dispatch => {
@@ -95,10 +96,14 @@ export const loginUser = (user, history) => dispatch => {
     });
 };
 
-export const logoutUser = () => {
-  return {
+export const logoutUser = () => dispatch => {
+  dispatch({
     type: LOGOUT_USER
-  };
+  });
+
+  dispatch({
+    type: CLEAR_PROFILE
+  });
 };
 
 export const setCurrentUser = () => async dispatch => {
@@ -199,6 +204,12 @@ export const hideSaveButton = () => dispatch => {
   });
 };
 
+export const showSaveButton = () => dispatch => {
+  dispatch({
+    type: SHOW_SAVE_BUTTON
+  });
+};
+
 export const getScores = () => async dispatch => {
   try {
     const response = await axios.get("http://localhost:9000/score");
@@ -235,4 +246,10 @@ export const clearScore = () => dispatch => {
   dispatch({
     type: CLEAR_SCORE
   });
+};
+
+export const clearProfile = () => {
+  return {
+    type: CLEAR_PROFILE
+  };
 };

@@ -50,9 +50,9 @@ class Profile extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { profile } = this.props;
 
-    if (prevProps.profile !== profile) {
+    if (prevProps.profile !== profile && profile.profile) {
+      console.log(profile);
       this.setState({
-        name: profile.profile.user.name.split(" ")[0],
         username: profile.profile.username,
         location: profile.profile.location,
         country: profile.profile.country

@@ -11,12 +11,16 @@
   animation: Gradient 15s ease infinite;
   position: relative;
   padding: 30px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .Leaderboard h2 {
   font-weight: lighter;
   border-bottom: none;
-  padding: 30px 0;
+  padding: 10px 0;
 }
 
 .Leaderboard a {
@@ -24,7 +28,7 @@
 }
 
 .Leaderboard-scores {
-  background-color: aqua;
+  width: 100%;
 }
 
 .Leaderboard-scores table {
@@ -79,6 +83,7 @@
 }
 
 .Leaderboard .nav-links {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   padding: 20px 10px 5px 5px;

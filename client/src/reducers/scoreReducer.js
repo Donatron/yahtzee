@@ -3,7 +3,8 @@ import {
   GET_SCORES,
   GET_SCORE,
   HIDE_SAVE_BUTTON,
-  CLEAR_SCORE
+  CLEAR_SCORE,
+  SHOW_SAVE_BUTTON
 } from "../actions/types";
 
 const initialState = {
@@ -35,6 +36,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         showSaveButton: false
+      };
+    case SHOW_SAVE_BUTTON:
+      return {
+        ...state,
+        showSaveButton: true
       };
     default:
       return state;

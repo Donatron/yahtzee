@@ -15,9 +15,9 @@ class Leaderboard extends Component {
   }
 
   componentDidMount() {
-    const { scores } = this.props;
+    const { scores, getScores } = this.props;
 
-    scores === undefined || scores.length === 0 ? this.props.getScores() : "";
+    getScores();
   }
 
   compare(a, b) {
@@ -70,6 +70,7 @@ class Leaderboard extends Component {
 
     return (
       <div className="Leaderboard">
+        <h1 className="App-title">Yahtzee!</h1>
         <h2>Leaderboard</h2>
         <p>Click any score to see the detailed breakdown of that game</p>
         {scores ? this.renderScores(scores) : <Spinner />}
