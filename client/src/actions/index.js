@@ -155,10 +155,7 @@ export const createProfile = formData => async dispatch => {
   }
 
   try {
-    const response = await axios.post(
-      "http://localhost:9000/profile",
-      formData
-    );
+    const response = await axios.post("/profile", formData);
 
     dispatch({
       type: CREATE_PROFILE,
@@ -182,7 +179,7 @@ export const saveScore = scoreData => async dispatch => {
   }
 
   try {
-    const response = await axios.post("http://localhost:9000/score", scoreData);
+    const response = await axios.post("/score", scoreData);
 
     dispatch({
       type: SAVE_SCORE,
@@ -212,7 +209,7 @@ export const showSaveButton = () => dispatch => {
 
 export const getScores = () => async dispatch => {
   try {
-    const response = await axios.get("http://localhost:9000/score");
+    const response = await axios.get("/score");
 
     dispatch({
       type: GET_SCORES,
@@ -228,7 +225,7 @@ export const getScores = () => async dispatch => {
 
 export const getScore = id => async dispatch => {
   try {
-    const response = await axios.get(`http://localhost:9000/score/${id}`);
+    const response = await axios.get(`/score/${id}`);
 
     dispatch({
       type: GET_SCORE,
